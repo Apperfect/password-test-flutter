@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:password_test/gradientBar.dart';
 import 'package:password_test/constants.dart';
-import 'package:password_test/helpers.dart';
+import 'package:password_test/strengthManager.dart';
 
 void main() {
   runApp(MyApp());
@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 autofocus: true,
                 decoration: textFieldDecoration.copyWith(
                     //Takes the decoration stored in the Constants file, and copies it with a suffix icon
-                    suffixIcon: showSuccessIcon(this.password.length)
+                    suffixIcon: validatePassword(this.password.length).result
                         ? Icon(Icons.check_circle, color: strongColor)
                         : null),
                 style: TextStyle(color: Colors.black),
@@ -68,11 +68,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
               ),
               GradientBar(
-                activeColor: getActiveColor(this.password.length),
+                activeColor: validatePassword(this.password.length).resultColor,
               ),
               Text(
-                getMessage(this.password.length),
-                style: TextStyle(color: getActiveColor(this.password.length), fontSize: 14),
+                validatePassword(this.password.length).resultString,
+                style: TextStyle(
+                    color: validatePassword(this.password.length).resultColor, fontSize: 14),
               ),
             ],
           ),
