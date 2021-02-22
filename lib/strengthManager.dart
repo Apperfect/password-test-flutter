@@ -10,6 +10,9 @@ class StrengthAttributes {
 }
 
 StrengthAttributes validatePassword(int length) {
+  final int weakLimit = 4;
+  final int mediumLimit = 7;
+
   if (length == 0) {
     return (StrengthAttributes(false, '', startingColor));
   } else if (length > 0 && length < weakLimit) {

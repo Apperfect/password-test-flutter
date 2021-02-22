@@ -53,11 +53,22 @@ class _MyHomePageState extends State<MyHomePage> {
               TextField(
                 textAlignVertical: TextAlignVertical.bottom,
                 autofocus: true,
-                decoration: textFieldDecoration.copyWith(
-                    //Takes the decoration stored in the Constants file, and copies it with a suffix icon
-                    suffixIcon: validatePassword(this.password.length).result
-                        ? Icon(Icons.check_circle, color: strongColor)
-                        : null),
+                decoration: InputDecoration(
+                  suffixIcon: validatePassword(this.password.length).result
+                      ? Icon(Icons.check_circle, color: strongColor)
+                      : null,
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent),
+                  ),
+                ),
+                // decoration: textFieldDecoration.copyWith(
+                //     //Takes the decoration stored in the Constants file, and copies it with a suffix icon
+                //     suffixIcon: validatePassword(this.password.length).result
+                //         ? Icon(Icons.check_circle, color: strongColor)
+                //         : null),
                 style: TextStyle(color: Colors.black),
                 obscuringCharacter: '*',
                 obscureText: true,
