@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:password_test/gradientBar.dart';
+import 'package:password_test/constants.dart';
+import 'package:password_test/helpers.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,39 +31,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String result = '';
-  bool strong = false;
-  Color activeColor = Colors.transparent;
-  Color strongColor = Colors.green;
-  Color mediumColor = Colors.amber;
-  Color weakColor = Colors.red;
-
-  validatePassword(String password) {
-    int length = password.length;
-
-    if (length == 0) {
-      this.result = '';
-      this.strong = false;
-    }
-
-    if (length > 0 && length < 4) {
-      this.result = 'Weak Password';
-      this.activeColor = weakColor;
-      this.strong = false;
-    }
-
-    if (length >= 4 && length < 7) {
-      this.result = 'Medium Password';
-      this.activeColor = mediumColor;
-      this.strong = false;
-    }
-
-    if (length >= 7) {
-      this.result = 'Strong Password';
-      this.activeColor = strongColor;
-      this.strong = true;
-    }
-  }
+  String password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -80,39 +51,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextStyle(color: Colors.black38, fontSize: 16),
               ),
               TextField(
-                decoration: InputDecoration(
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                  ),
-                  suffixIcon: this.strong ? Icon(Icons.check_circle, color: strongColor) : null,
-                ),
+                textAlignVertical: TextAlignVertical.bottom,
+                autofocus: true,
+                decoration: textFieldDecoration.copyWith(
+                    //Takes the decoration stored in the Constants file, and copies it with a suffix icon
+                    suffixIcon: showSuccessIcon(this.password.length)
+                        ? Icon(Icons.check_circle, color: strongColor)
+                        : null),
                 style: TextStyle(color: Colors.black),
                 obscuringCharacter: '*',
                 obscureText: true,
                 onChanged: (value) {
                   setState(() {
-                    this.validatePassword(value);
+                    this.password = value;
                   });
                 },
               ),
-              Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Colors.blue, activeColor],
-                  ),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(20),
-                  ),
-                ),
-                margin: EdgeInsets.only(bottom: 10, top: 10),
-                height: 5,
+              GradientBar(
+                activeColor: getActiveColor(this.password.length),
               ),
               Text(
-                this.result,
-                style: TextStyle(color: activeColor, fontSize: 14),
+                getMessage(this.password.length),
+                style: TextStyle(color: getActiveColor(this.password.length), fontSize: 14),
               ),
             ],
           ),
